@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.Prism" parent="android:Theme.Material.NoActionBar">
+        <!-- Default background: bundled "Hope" sunrise. Milestone 8 adds a setting to use the system wallpaper or a picked image. -->
+        <item name="android:windowBackground">@drawable/wallpaper_hope</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+</resources>

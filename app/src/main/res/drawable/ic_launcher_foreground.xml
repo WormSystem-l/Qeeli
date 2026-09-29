@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- Half sun rising over the horizon (Qeeli "hope" mark). Kept inside the 66dp adaptive-icon safe zone. -->
+    <path android:pathData="M36,64 A18,18 0 0 1 72,64 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient android:type="linear" android:startX="54" android:startY="46"
+                android:endX="54" android:endY="64"
+                android:startColor="#FFFFF1CC" android:endColor="#FFFFB86B" />
+        </aapt:attr>
+    </path>
+    <path android:strokeColor="#FFFFE2A6" android:strokeWidth="3" android:strokeLineCap="round"
+        android:pathData="M73.0,55.1 L81.2,51.3 M66.0,46.8 L71.2,39.4 M54.0,43.0 L54.0,34.0 M42.0,46.8 L36.8,39.4 M35.0,55.1 L26.8,51.3" />
+    <path android:strokeColor="#FFFFF1CC" android:strokeWidth="3" android:strokeLineCap="round"
+        android:pathData="M28,64 L80,64" />
+</vector>

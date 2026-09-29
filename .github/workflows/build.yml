@@ -1,0 +1,61 @@
+name: Build Qeeli APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+  release:
+    types: [ published ]
+  workflow_dispatch:   # lets you run it manually from the Actions tab
+
+permissions:
+  contents: write      # needed to attach APKs to a GitHub Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # Installs Gradle 8.7 directly, so no gradle-wrapper.jar is required in the repo.
+      # (If you later add the wrapper, you can replace `gradle` with `./gradlew` below.)
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.7
+
+      - name: Build debug and release APKs
+        run: gradle assembleDebug assembleRelease --stacktrace
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Qeeli-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+
+      # Release build is R8-minified and signed with the debug key (fine for testing, not for the Play Store).
+      - name: Upload release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Qeeli-release-apk
+          path: app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
+
+      - name: Attach APKs to GitHub Release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cp app/build/outputs/apk/debug/app-debug.apk Qeeli-debug.apk
+          cp app/build/outputs/apk/release/app-release.apk Qeeli-release.apk
+          gh release upload "${{ github.event.release.tag_name }}" Qeeli-debug.apk Qeeli-release.apk --clobber
